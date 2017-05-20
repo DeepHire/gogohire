@@ -7,6 +7,9 @@ from cStringIO import StringIO
 import docx2txt
 import re
 
+# custom librarys
+
+
 # timing stuff that can be removes
 import time
 
@@ -20,9 +23,9 @@ class ParseData():
 		text = docx2txt.process(file)
 		return text
 
-	def pdf_parser(self, file):
-
-		fp = file(file, 'rb')
+	def pdf_parser(self, file_1):
+		print file_1
+		fp = file(file_1, 'rb')
 		rsrcmgr = PDFResourceManager()
 		retstr = StringIO()
 		codec = 'utf-8'
@@ -34,14 +37,9 @@ class ParseData():
 
 		for page in PDFPage.get_pages(fp):
 			interpreter.process_page(page)
-			file =  retstr.getvalue()
+			file_1 =  retstr.getvalue()
 
-		return file
-
-	def find_emails(self, file):
-		data = self.parse_emails_to_string(file)
-		temp = re.search(r'[\w\.-]+@[\w\.-]+', data)
-		return temp.group()
+		return file_1
 
 
 	def parse_emails_to_string(self, file):
@@ -59,6 +57,13 @@ class ParseData():
 				did not have a correct file extention""")
 
 
+	def find_emails(self, file):
+		data = self.parse_emails_to_string(file)
+		temp = re.search(r'[\w\.-]+@[\w\.-]+', data)
+		return temp.group()
+
+
+	
 	
 if __name__ == '__main__':
 	start = time.time()
